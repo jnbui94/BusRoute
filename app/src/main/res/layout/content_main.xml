@@ -21,12 +21,18 @@
             android:gravity="center_horizontal"
             android:id="@+id/Search_Text"/>
 
-        <ListView
+        <!--<ListView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/Search_ListView">-->
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/Search_ListView">
+            android:id="@+id/Text_View"
+            android:layout_below="@+id/Search_Text"
 
-        </ListView>
+            />
+
 
     </RelativeLayout>
 

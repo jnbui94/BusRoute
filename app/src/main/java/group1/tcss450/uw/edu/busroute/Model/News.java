@@ -11,19 +11,19 @@ public class News {
     /**
      * ID from JSON
      */
-    private String mID;
+    private String mAnalyzerID;
     /**
      * Language from JSON
      */
-    private String mLanguage;
-    /**
-     * Kind from JSON
-     */
-    private String mKind;
-    /**
-     * Specifications from JSON
-     */
-    private String mSpecs;
+    private String mResult;
+//    /**
+//     * Kind from JSON
+//     */
+//    private String mKind;
+//    /**
+//     * Specifications from JSON
+//     */
+//    private String mSpecs;
     /**
      * Implementation from JSON
      */
@@ -44,31 +44,17 @@ public class News {
      * @throws JSONException
      */
     private void create(JSONObject json) throws JSONException{
-        mID = json.getString("id");
-        mLanguage = json.getString("languages");
-        mKind = json.getString("kind");
-        mSpecs = json.getString("specification");
-        mImpl = json.getString("implementation");
+        mAnalyzerID = json.getString("analyzerId");
+        mResult = json.getString("result");
     }
 
     /**
      * return id
      */
-    public String getId(){return mID;}
+    public String getId(){return mAnalyzerID;}
     /**
-     * return language
+     * return result
      */
-    public String getLanguage(){return mLanguage;}
-    /**
-     * return kind
-     */
-    public String getmKind(){return mKind;}
-    /**
-     * return Specification
-     */
-    public String getSpecs() {return mSpecs;}
-    /**
-     * return implemetation
-     */
-    public String getImp(){return mImpl;}
+    public String getResult(){return mResult;}
+
 }

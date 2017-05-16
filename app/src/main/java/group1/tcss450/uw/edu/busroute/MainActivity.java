@@ -16,25 +16,34 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import edu.stanford.nlp.trees.Tree;
 
 
+import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import edu.stanford.nlp.trees.TreeFactory;
 import group1.tcss450.uw.edu.busroute.Model.News;
 
 public class MainActivity extends AppCompatActivity
@@ -53,6 +62,8 @@ public class MainActivity extends AppCompatActivity
      * ListView field
      */
     private ListView mListView;
+    private TextView mTextView;
+    private EditText mEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +72,9 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mListView = (ListView) findViewById(R.id.Search_ListView);
-
+//        mListView = (ListView) findViewById(R.id.Search_ListView);
+        mTextView = (TextView) findViewById(R.id.Text_View);
+        mEditText = (EditText) findViewById(R.id.Search_Text);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +95,8 @@ public class MainActivity extends AppCompatActivity
         AsyncTask<String, Void, String> task = null;
         task = new PostWebServiceTask();
         task.execute(mURL);
+
+
     }
 
 
@@ -108,7 +122,7 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -151,13 +165,21 @@ public class MainActivity extends AppCompatActivity
 
                 URIBuilder builder = new URIBuilder(mURL);
 
+                builder.setParameter("language","en");
+                builder.setParameter("analyzerIds","4FA79AF1-F22C-408D-98BB-B7D7AEEF7F04");
+                builder.setParameter("text","Hello, my name is John");
 
                 URI uri = builder.build();
-                HttpGet request = new HttpGet(uri);
+                HttpPost request = new HttpPost(uri);
                 request.setHeader("Content-Type", "application/json");
                 request.setHeader("Ocp-Apim-Subscription-Key", mKey);
 
                 //Request Body
+                StringEntity reqEntity = new StringEntity("{body}");
+                request.setEntity(reqEntity);
+
+
+
 
                 HttpResponse response = httpclient.execute(request);
                 entity = response.getEntity();
@@ -208,20 +230,13 @@ public class MainActivity extends AppCompatActivity
             }
 
             final News[] tempNewses = newses;
-            NewsListAdapter adapter = new NewsListAdapter(mThat, newses);
-            mListView.setAdapter(adapter);
-            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, final View view,
-                                        int position, long id) {
-                    Intent intent = new Intent(mThat, NewsViewActivity.class);
-                    intent.putExtra(KEY_USERNAME, mUsername);
-                    intent.putExtra(NEWS_KEY, tempNewses[position]);
-                    intent.putExtra("Activity","Main");
-                    startActivity(intent);
-                }
-            });
-            mProgressBar.setVisibility(View.GONE);
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0; i< tempNewses.length; i++) {
+                sb.append(tempNewses[i]);
+            }
+
+            mTextView.setText(sb);
+
         }
     }
 }
