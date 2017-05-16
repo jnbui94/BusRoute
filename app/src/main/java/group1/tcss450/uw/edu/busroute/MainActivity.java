@@ -51,13 +51,12 @@ public class MainActivity extends AppCompatActivity
     /**
      * url to connect to our API.
      */
-    private static final String mURL
-            = "https://westus.api.cognitive.microsoft.com/linguistics/v1.0/analyze";
+    private static final String mURL = "https://westus.api.cognitive.microsoft.com/linguistics/v1.0/analyze";
     /**
      * keys for connect to external database.
      */
     private static  final String mKey = "b80390842a2449528662a1a01e98d032";
-    private static final String mKey1 = "2807d9ffb29043c7a13e7bcf706a81a2";
+        private static final String mKey1 = "2807d9ffb29043c7a13e7bcf706a81a2";
     /**
      * ListView field
      */
@@ -92,8 +91,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        AsyncTask<String, Void, String> task = null;
-        task = new PostWebServiceTask();
+        AsyncTask<String, Void, String> task = new PostWebServiceTask();
         task.execute(mURL);
 
 
@@ -164,10 +162,11 @@ public class MainActivity extends AppCompatActivity
                 HttpEntity entity;
 
                 URIBuilder builder = new URIBuilder(mURL);
-
-                builder.setParameter("language","en");
-                builder.setParameter("analyzerIds","4FA79AF1-F22C-408D-98BB-B7D7AEEF7F04");
-                builder.setParameter("text","Hello, my name is John");
+//
+//                builder.setParameter("language","en");
+//                builder.setParameter("analyzerIds","4FA79AF1-F22C-408D-98BB-B7D7AEEF7F04 , 22a6b758-420f-4745-8a3c-46835a67c0d2");
+//
+//                builder.setParameter("text","Hello, my name is John");
 
                 URI uri = builder.build();
                 HttpPost request = new HttpPost(uri);
@@ -175,7 +174,9 @@ public class MainActivity extends AppCompatActivity
                 request.setHeader("Ocp-Apim-Subscription-Key", mKey);
 
                 //Request Body
-                StringEntity reqEntity = new StringEntity("{body}");
+                StringEntity reqEntity = new StringEntity("{\"language\" : \"en\",\n" +
+                        "\t\"analyzerIds\" : [\"4fa79af1-f22c-408d-98bb-b7d7aeef7f04\", \"22a6b758-420f-4745-8a3c-46835a67c0d2\"],\n" +
+                        "\t\"text\" : \"I want to get pizza\" }");
                 request.setEntity(reqEntity);
 
 
@@ -214,13 +215,13 @@ public class MainActivity extends AppCompatActivity
 
             News[] newses = new News[0];
             try {
-                JSONObject resultObj = new JSONObject(result);
-                JSONArray value = resultObj.getJSONArray("value");
+                JSONArray value = new JSONArray(result);
+//                JSONArray value = resultObj.getJSONArray("value");
                 newses = new News[value.length()];
                 //listItems = new String[value.length()];
-                for (int i = 0; i < value.length(); i++){
+                for (int i = 0; i < value.length()-1; i++){
                     JSONObject oneNews = (JSONObject) value.get(i);
-                    Log.d("LoadFromDB one", oneNews.getString("url"));
+                  //  Log.d("LoadFromDB one", oneNews.getString("url"));
                     newses[i] = new News(oneNews);
                     //listItems[i] = newses[i].getName();
                 }
@@ -231,11 +232,18 @@ public class MainActivity extends AppCompatActivity
 
             final News[] tempNewses = newses;
             StringBuilder sb = new StringBuilder();
-            for(int i = 0; i< tempNewses.length; i++) {
-                sb.append(tempNewses[i]);
+            for(int i = 0; i< tempNewses.length - 1; i++) {
+                sb.append(tempNewses[i].getResult());
             }
+            String tagOnly = sb.toString().substring(2, sb.toString().length() - 2);
+            String[] tags = tagOnly.split(",");
+            Log.d("Size: ", tags.length + "");
 
-            mTextView.setText(sb);
+            for (int i = 0; i < tags.length; i++) {
+                Log.d("Tag = ", tags[i]);
+            }
+            Log.d("result", sb.toString());
+            mTextView.setText(sb.toString());
 
         }
     }
