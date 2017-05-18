@@ -35,7 +35,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import edu.stanford.nlp.trees.Tree;
+
 
 
 import java.lang.reflect.Array;
@@ -43,7 +43,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.stanford.nlp.trees.TreeFactory;
 import group1.tcss450.uw.edu.busroute.Model.News;
 
 public class MainActivity extends AppCompatActivity
