@@ -204,7 +204,6 @@ public class MainActivity extends AppCompatActivity
                     if (temp.equals("NNP")) {
                         keyWord = prevWord + '/' + temp; // word/tag
                     }
-                    prevWord = temp;
                 }
                 return keywWord;
                 */
