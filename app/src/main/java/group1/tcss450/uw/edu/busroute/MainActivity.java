@@ -190,6 +190,22 @@ public class MainActivity extends AppCompatActivity
                 {
                     Log.d("entity not null", result);
                 }
+                /*
+                //TODO need to check format to see if that's the right slash / vs \
+                //TODO this code only handles input with a single NNP tag. It overwrites old with new if a sentence has more than one
+                //TODO should consider keyWord being an array and incrememnting a counter in the while loop so we can return and parse all the NNPs
+                //TODO for some reason this doesn't work on Dylan's computer at all. It's not seeing any of this as a proper project and autocomplete + emulator aren't working :(
+                StringTokenizer st = new StringTokenizer(result, " /"); //delim on space and the slash between word/tag
+                String keyWord = null;
+                String prevWord = null;
+                while (st.hasMoreTokens()) {
+                    String temp = st.nextToken();
+                    if (temp.equals("NNP")) {
+                        keyWord = prevWord + '/' + temp; // word/tag
+                    }
+                }
+                return keywWord;
+                */
 
                 return result;
             }
