@@ -20,7 +20,13 @@
             android:hint="@string/Search_Hint"
             android:gravity="center_horizontal"
             android:id="@+id/Search_Text"/>
-
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Submit_button"
+            android:onClick="buttonClicked"
+            android:layout_below="@id/Search_Text"
+            android:text="Submit"/>
         <!--<ListView-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
@@ -29,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/Text_View"
-            android:layout_below="@+id/Search_Text"
+            android:layout_below="@+id/Submit_button"
 
             />
 

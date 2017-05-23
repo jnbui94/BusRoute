@@ -15,18 +15,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
@@ -36,12 +32,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-
-import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
+import java.util.StringTokenizer;
 
 import group1.tcss450.uw.edu.busroute.Model.News;
 
@@ -62,6 +56,8 @@ public class MainActivity extends AppCompatActivity
     private ListView mListView;
     private TextView mTextView;
     private EditText mEditText;
+    private String[] listOfWords;
+    private String mString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +91,22 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-
+    /**
+     * when a button is clicked.
+     * @param view Object.
+     */
+    public void buttonClicked(View view) {
+//        AsyncTask<String, Void, String> task = null;
+//        String temp = mEditText.getText().toString();
+//        switch (view.getId()) {
+//            case R.id.Submit_button:
+//                task = new PostWebServiceTask();
+//                task.execute(mURL,temp);
+//                break;
+//            default:
+//                throw new IllegalStateException("Not implemented");
+//        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -172,10 +183,28 @@ public class MainActivity extends AppCompatActivity
                 request.setHeader("Content-Type", "application/json");
                 request.setHeader("Ocp-Apim-Subscription-Key", mKey);
 
+//                String abc = strings[1];
+//                Log.d("String abc", abc.toString());
+
+
+                String sent = "I eat sushi";
+//                String theSent = sent.trim().replaceAll(" +", " ");
+//                if (sent.startsWith(" ")) {
+//                    theSent = sent.substring(1, sent.length());
+//                } else if (sent.endsWith(" ")) {
+//                    theSent = sent.substring(0, sent.length() - 1);
+//                }
+
+                listOfWords = sent.split(" ");
+//                StringTokenizer st = new StringTokenizer(sent);
+//                while(st.hasMoreTokens()) {
+//                    listOfWords.add(st.nextToken());
+//                }
+
                 //Request Body
                 StringEntity reqEntity = new StringEntity("{\"language\" : \"en\",\n" +
                         "\t\"analyzerIds\" : [\"4fa79af1-f22c-408d-98bb-b7d7aeef7f04\", \"22a6b758-420f-4745-8a3c-46835a67c0d2\"],\n" +
-                        "\t\"text\" : \"I want to get pizza\" }");
+                        "\t\"text\" :" + "\""+ sent  +"\"}" );        //  \"I want to get pizza\" }");
                 request.setEntity(reqEntity);
 
 
@@ -190,22 +219,6 @@ public class MainActivity extends AppCompatActivity
                 {
                     Log.d("entity not null", result);
                 }
-                /*
-                //TODO need to check format to see if that's the right slash / vs \
-                //TODO this code only handles input with a single NNP tag. It overwrites old with new if a sentence has more than one
-                //TODO should consider keyWord being an array and incrememnting a counter in the while loop so we can return and parse all the NNPs
-                //TODO for some reason this doesn't work on Dylan's computer at all. It's not seeing any of this as a proper project and autocomplete + emulator aren't working :(
-                StringTokenizer st = new StringTokenizer(result, " /"); //delim on space and the slash between word/tag
-                String keyWord = null;
-                String prevWord = null;
-                while (st.hasMoreTokens()) {
-                    String temp = st.nextToken();
-                    if (temp.equals("NNP")) {
-                        keyWord = prevWord + '/' + temp; // word/tag
-                    }
-                }
-                return keywWord;
-                */
 
                 return result;
             }
@@ -250,14 +263,39 @@ public class MainActivity extends AppCompatActivity
             for(int i = 0; i< tempNewses.length - 1; i++) {
                 sb.append(tempNewses[i].getResult());
             }
-            String tagOnly = sb.toString().substring(2, sb.toString().length() - 2);
-            String[] tags = tagOnly.split(",");
-            Log.d("Size: ", tags.length + "");
+//            String tagOnly = sb.toString().substring(2, sb.toString().length() - 2);
+//            String[] tags = tagOnly.split(",");
+//            Log.d("Size: ", tags.length + "");
 
-            for (int i = 0; i < tags.length; i++) {
-                Log.d("Tag = ", tags[i]);
-            }
+//            int index = 0;
+//
+//            for (int i = 0; i < tags.length; i++) {
+//                if (tags[i].equals("\"NN\"" )|| tags[i].equals("\"NNP\"") || tags[i].equals("\"NNS\"" )|| tags[i].equals("\"NNPS\""))
+//                {
+//                    Log.d("Index ", i + "");
+//                    Log.d("Word ", listOfWords[i]);
+//                }
+//            }
+//
             Log.d("result", sb.toString());
+
+
+//                //TODO need to check format to see if that's the right slash / vs \
+//                //TODO this code only handles input with a single NNP tag. It overwrites old with new if a sentence has more than one
+//                //TODO should consider keyWord being an array and incrememnting a counter in the while loop so we can return and parse all the NNPs
+//                //TODO for some reason this doesn't work on Dylan's computer at all. It's not seeing any of this as a proper project and autocomplete + emulator aren't working :(
+//                StringTokenizer st = new StringTokenizer(result, " /"); //delim on space and the slash between word/tag
+//                String keyWord = null;
+//                String prevWord = null;
+//                while (st.hasMoreTokens()) {
+//                    String temp = st.nextToken();
+//                    if (temp.equals("NNP")) {
+//                        keyWord = prevWord + '/' + temp; // word/tag
+//                    }
+//                }
+//                return keywWord;
+
+
             mTextView.setText(sb.toString());
 
         }
