@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        AsyncTask<String, Void, String> task = new PostWebServiceTask();
-        task.execute(mURL);
+//        AsyncTask<String, Void, String> task = new PostWebServiceTask();
+//        task.execute(mURL);
 
 
     }
@@ -96,16 +96,16 @@ public class MainActivity extends AppCompatActivity
      * @param view Object.
      */
     public void buttonClicked(View view) {
-//        AsyncTask<String, Void, String> task = null;
-//        String temp = mEditText.getText().toString();
-//        switch (view.getId()) {
-//            case R.id.Submit_button:
-//                task = new PostWebServiceTask();
-//                task.execute(mURL,temp);
-//                break;
-//            default:
-//                throw new IllegalStateException("Not implemented");
-//        }
+        AsyncTask<String, Void, String> task = null;
+        mString = mEditText.getText().toString();
+        switch (view.getId()) {
+            case R.id.Submit_button:
+                task = new PostWebServiceTask();
+                task.execute(mURL);
+                break;
+            default:
+                throw new IllegalStateException("Not implemented");
+        }
     }
 
     @Override
@@ -187,7 +187,8 @@ public class MainActivity extends AppCompatActivity
 //                Log.d("String abc", abc.toString());
 
 
-                String sent = "I eat sushi";
+//                String sent = "I eat sushi";
+                String sent = mString;
 //                String theSent = sent.trim().replaceAll(" +", " ");
 //                if (sent.startsWith(" ")) {
 //                    theSent = sent.substring(1, sent.length());
