@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity
     private ListView mListView;
     private TextView mTextView;
     private EditText mEditText;
-    private String[] listOfWords;
+    private ArrayList<String> listOfWords = new ArrayList<>();
     private String mString;
 
     @Override
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity
 
                 String sent = mString;
 
-                listOfWords = sent.split(" ");
+
 
                 //Request Body
                 StringEntity reqEntity = new StringEntity("{\"language\" : \"en\",\n" +
@@ -241,20 +241,35 @@ public class MainActivity extends AppCompatActivity
             for(int i = 0; i< tempNewses.length - 1; i++) {
                 sb.append(tempNewses[i].getResult());
             }
-            String tagOnly = sb.toString().substring(2, sb.toString().length() - 2);
-            String[] tags = tagOnly.split(",");
-            Log.d("Size: ", tags.length + "");
+//            String tagOnly = sb.toString().substring(2, sb.toString().length() - 2);
+//            String[] tags = tagOnly.split(",");
+//            Log.d("Size: ", tags.length + "");
+//
+//            for (int i = 0; i < tags.length; i++) {
+//                if (tags[i].equals("\"NN\"" )|| tags[i].equals("\"NNP\"") || tags[i].equals("\"NNS\"" )|| tags[i].equals("\"NNPS\""))
+//                {
+//                    Log.d("Index ", i + "");
+//                    Log.d("Word ", listOfWords[i]);
+//                }
+//            }
 
+            Log.d("result", sb.toString());
+            Log.d("The String", mString);
+            StringTokenizer parseString = new StringTokenizer(mString, " ");
+            while (parseString.hasMoreTokens()) {
+                listOfWords.add(parseString.nextToken());
+            }
+            String tag = sb.toString().substring(2, sb.toString().length()-2);
+            String[] tags = tag.split(",");
+            ArrayList<Integer> size = new ArrayList();
             for (int i = 0; i < tags.length; i++) {
                 if (tags[i].equals("\"NN\"" )|| tags[i].equals("\"NNP\"") || tags[i].equals("\"NNS\"" )|| tags[i].equals("\"NNPS\""))
                 {
                     Log.d("Index ", i + "");
-                    Log.d("Word ", listOfWords[i]);
+                    Log.d("Word ", listOfWords.get(i));
+                    size.add(i);
                 }
             }
-
-            Log.d("result", sb.toString());
-
 
 //                //TODO need to check format to see if that's the right slash / vs \
 //                //TODO this code only handles input with a single NNP tag. It overwrites old with new if a sentence has more than one
@@ -270,10 +285,12 @@ public class MainActivity extends AppCompatActivity
 //                    }
 //                }
 //                return keywWord;
-
-
+            StringBuilder mFinal = new StringBuilder();
+            for(int i = 0; i< size.size();i++ ) {
+                mFinal.append(listOfWords.get(size.get(i)));
+            }
+           // mTextView.setText(mFinal.toString());
             mTextView.setText(sb.toString());
-
         }
     }
 }
