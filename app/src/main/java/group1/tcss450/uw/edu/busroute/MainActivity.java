@@ -86,8 +86,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-//        AsyncTask<String, Void, String> task = new PostWebServiceTask();
-//        task.execute(mURL);
 
 
     }
@@ -162,7 +160,6 @@ public class MainActivity extends AppCompatActivity
             if (strings.length != 1) {
                 throw new IllegalArgumentException("Two String arguments required.");
             }
-            //String response = "";
             HttpClient httpclient = HttpClients.createDefault();
 
             //modified example code from microsoft
@@ -172,35 +169,15 @@ public class MainActivity extends AppCompatActivity
                 HttpEntity entity;
 
                 URIBuilder builder = new URIBuilder(mURL);
-//
-//                builder.setParameter("language","en");
-//                builder.setParameter("analyzerIds","4FA79AF1-F22C-408D-98BB-B7D7AEEF7F04 , 22a6b758-420f-4745-8a3c-46835a67c0d2");
-//
-//                builder.setParameter("text","Hello, my name is John");
 
                 URI uri = builder.build();
                 HttpPost request = new HttpPost(uri);
                 request.setHeader("Content-Type", "application/json");
                 request.setHeader("Ocp-Apim-Subscription-Key", mKey);
 
-//                String abc = strings[1];
-//                Log.d("String abc", abc.toString());
-
-
-//                String sent = "I eat sushi";
                 String sent = mString;
-//                String theSent = sent.trim().replaceAll(" +", " ");
-//                if (sent.startsWith(" ")) {
-//                    theSent = sent.substring(1, sent.length());
-//                } else if (sent.endsWith(" ")) {
-//                    theSent = sent.substring(0, sent.length() - 1);
-//                }
 
                 listOfWords = sent.split(" ");
-//                StringTokenizer st = new StringTokenizer(sent);
-//                while(st.hasMoreTokens()) {
-//                    listOfWords.add(st.nextToken());
-//                }
 
                 //Request Body
                 StringEntity reqEntity = new StringEntity("{\"language\" : \"en\",\n" +
@@ -264,20 +241,18 @@ public class MainActivity extends AppCompatActivity
             for(int i = 0; i< tempNewses.length - 1; i++) {
                 sb.append(tempNewses[i].getResult());
             }
-//            String tagOnly = sb.toString().substring(2, sb.toString().length() - 2);
-//            String[] tags = tagOnly.split(",");
-//            Log.d("Size: ", tags.length + "");
+            String tagOnly = sb.toString().substring(2, sb.toString().length() - 2);
+            String[] tags = tagOnly.split(",");
+            Log.d("Size: ", tags.length + "");
 
-//            int index = 0;
-//
-//            for (int i = 0; i < tags.length; i++) {
-//                if (tags[i].equals("\"NN\"" )|| tags[i].equals("\"NNP\"") || tags[i].equals("\"NNS\"" )|| tags[i].equals("\"NNPS\""))
-//                {
-//                    Log.d("Index ", i + "");
-//                    Log.d("Word ", listOfWords[i]);
-//                }
-//            }
-//
+            for (int i = 0; i < tags.length; i++) {
+                if (tags[i].equals("\"NN\"" )|| tags[i].equals("\"NNP\"") || tags[i].equals("\"NNS\"" )|| tags[i].equals("\"NNPS\""))
+                {
+                    Log.d("Index ", i + "");
+                    Log.d("Word ", listOfWords[i]);
+                }
+            }
+
             Log.d("result", sb.toString());
 
 
